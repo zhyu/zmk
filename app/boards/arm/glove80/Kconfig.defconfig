@@ -36,9 +36,12 @@ config ZMK_USB
 
 config ZMK_BATTERY_VOLTAGE_DIVIDER
 	default y
-	
+
 config ZMK_BATTERY_NRF_VDDH
 	default y
+
+config ZMK_KSCAN_MATRIX_WAIT_BETWEEN_OUTPUTS
+    default 5
 
 if USB
 
