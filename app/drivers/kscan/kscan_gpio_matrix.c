@@ -250,6 +250,13 @@ static int kscan_matrix_read(const struct device *dev) {
             LOG_ERR("Failed to set output %i inactive: %i", o, err);
             return err;
         }
+
+        // Patch in a busy wait to give the input capacitance time to drain. We
+        // should revisit whether this is necessary once we have diodes in the
+        // matrix.
+        if (o < config->outputs.len - 1) {
+            k_busy_wait(10);
+        }
     }
 
     // Process the new state.
