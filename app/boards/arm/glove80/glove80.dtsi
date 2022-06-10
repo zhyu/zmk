@@ -34,7 +34,7 @@ RC(5,0) RC(5,1) RC(5,2) RC(5,3) RC(5,4)         RC(3,6) RC(4,6) RC(5,6)   RC(5,7
 		compatible = "zmk,kscan-gpio-matrix";
 		label = "KSCAN";
 
-		diode-direction = "row2col";
+		diode-direction = "col2row"; 
 		debounce-press-ms = <1>;
 		debounce-release-ms = <25>;
 	};
