@@ -28,7 +28,20 @@ makeScope newScope (self: with self; {
     shield = "settings_reset";
   };
 
-  zmk_right = zmk.override {
+  glove80_left = zmk.override {
+    board = "glove80_lh";
+  };
+
+  glove80_right = zmk.override {
     board = "glove80_rh";
   };
+
+  glove80_v0_left = zmk.override {
+    board = "glove80_v0_lh";
+  };
+
+  glove80_v0_right = zmk.override {
+    board = "glove80_v0_rh";
+  };
+
 })
