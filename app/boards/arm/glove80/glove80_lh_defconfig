@@ -7,19 +7,23 @@ CONFIG_BOARD_GLOVE80_LH=y
 # Enable MPU
 CONFIG_ARM_MPU=y
 
-# enable GPIO
+# Enable GPIO
 CONFIG_GPIO=y
 
+# Build configurations
 CONFIG_BUILD_OUTPUT_UF2=y
-
 CONFIG_USE_DT_CODE_PARTITION=y
 
+# Flash configuration
 CONFIG_MPU_ALLOW_FLASH_WRITE=y
 CONFIG_NVS=y
 CONFIG_SETTINGS_NVS=y
 CONFIG_FLASH=y
 CONFIG_FLASH_PAGE_LAYOUT=y
 CONFIG_FLASH_MAP=y
+
+# Enable 32kHz crystal
+CONFIG_CLOCK_CONTROL_NRF_K32SRC_XTAL=y
 
 # Enable RGB underglow
 CONFIG_ZMK_RGB_UNDERGLOW=y
@@ -30,11 +34,14 @@ CONFIG_ZMK_RGB_UNDERGLOW_EXT_POWER=y
 CONFIG_ZMK_RGB_UNDERGLOW_ON_START=n
 CONFIG_ZMK_RGB_UNDERGLOW_BRT_STEP=4
 CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN=4
-# DO NOT CHANGE CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX TO > 80
-CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX=80 
+
+# DO NOT CHANGE CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX TO ABOVE 80. Configuring
+# BRT_MAX above 80% will draw additional current and can potentially damage your
+# computer. WARRANTY IS VOID IF BRT_MAX SET ABOVE 80.
+CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX=80
 
 # [SC] These are additional configurations that need to be implmented
-#CONFIG_ZMK_RGB_UNDERGLOW_USB_CONNECTED_BRT_MAX=80 # If your USB charger is not capable of providing 900mA, then this should be changed to a smaller number 
+#CONFIG_ZMK_RGB_UNDERGLOW_USB_CONNECTED_BRT_MAX=80 # If your USB charger is not capable of providing 900mA, then this should be changed to a smaller number
 #CONFIG_ZMK_RGB_UNDERGLOW_CONSERVE_BAT_PERCENT=30 # Activate undeglow battery conservation mode at < 30% battery
 #CONFIG_ZMK_RGB_UNDERGLOW_CONSERVE_BAT_BRT_MAX=16 # Maximum brightness at battery conservation mode is 16
 #CONFIG_ZMK_RGB_UNDERGLOW_DISABLE_BAT_PERCENT=10 # Disable underglow at < 10% battery
@@ -51,8 +58,12 @@ CONFIG_ZMK_BACKLIGHT_BRT_START=5
 CONFIG_ZMK_BACKLIGHT_AUTO_OFF_IDLE=y
 CONFIG_ZMK_BACKLIGHT_AUTO_OFF_USB=y
 
-# Turn on logging, and set ZMK logging to debug output
-# Only for debugging
+# The full two-byte consumer report space has compatibility issues with some
+# operating systems, most notably macOS. Use the more basic single-byte usage
+# space.
+CONFIG_ZMK_HID_CONSUMER_REPORT_USAGES_BASIC=y
+
+# Default to no logging
 CONFIG_ZMK_USB_LOGGING=n
 
 # Turn on debugging to disable optimization
