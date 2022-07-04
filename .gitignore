@@ -9,3 +9,6 @@
 __pycache__
 workspace.code-workspace
 *.uf2
+left
+result
+right
