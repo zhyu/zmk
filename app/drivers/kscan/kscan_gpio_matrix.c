@@ -251,11 +251,9 @@ static int kscan_matrix_read(const struct device *dev) {
             return err;
         }
 
-        // Patch in a busy wait to give the input capacitance time to drain. We
-        // should revisit whether this is necessary once we have diodes in the
-        // matrix.
+        // Patch in a busy wait to give the input capacitance time to drain via the pull-down.
         if (o < config->outputs.len - 1) {
-            k_busy_wait(10);
+            k_busy_wait(5);
         }
     }
 
