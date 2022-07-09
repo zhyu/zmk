@@ -99,13 +99,13 @@
 		, <&gpio1 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // LH ROW6
 		;
 	col-gpios
-		= <&gpio1 8 GPIO_ACTIVE_HIGH> // LH COL6
-		, <&gpio1 4 GPIO_ACTIVE_HIGH> // LH COL5
-		, <&gpio1 6 GPIO_ACTIVE_HIGH> // LH COL4
-		, <&gpio1 7 GPIO_ACTIVE_HIGH> // LH COL3
-		, <&gpio1 5 GPIO_ACTIVE_HIGH> // LH COL2
-		, <&gpio1 3 GPIO_ACTIVE_HIGH> // LH COL1
-		, <&gpio1 1 GPIO_ACTIVE_HIGH> // LH Thumb
+		= <&gpio1 8 GPIO_OPEN_SOURCE> // LH COL6
+		, <&gpio1 4 GPIO_OPEN_SOURCE> // LH COL5
+		, <&gpio1 6 GPIO_OPEN_SOURCE> // LH COL4
+		, <&gpio1 7 GPIO_OPEN_SOURCE> // LH COL3
+		, <&gpio1 5 GPIO_OPEN_SOURCE> // LH COL2
+		, <&gpio1 3 GPIO_OPEN_SOURCE> // LH COL1
+		, <&gpio1 1 GPIO_OPEN_SOURCE> // LH Thumb
 		;
 };
 
