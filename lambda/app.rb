@@ -62,11 +62,11 @@ module LambdaFunction
             return error_response(400, error: "Compile failed with exit status #{status}", detail: compile_output)
           end
 
-          unless File.exist?('zephyr/zmk.uf2')
+          unless File.exist?('zephyr/combined.uf2')
             return error_response(500, error: 'Compile failed to produce result binary', detail: compile_output)
           end
 
-          file_response(File.read('zephyr/zmk.uf2'), compile_output)
+          file_response(File.read('zephyr/combined.uf2'), compile_output)
         rescue StandardError => e
           error_response(500, error: 'Unexpected error', detail: e.message)
         end

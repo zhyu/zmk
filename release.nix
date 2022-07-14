@@ -50,6 +50,7 @@ let
         unwrappedCC = pkgs.gcc-arm-embedded;
       };
     };
+    zmk_glove80_rh = zmk.override { board = "glove80_rh"; };
   in pkgs.writeShellScriptBin "compileZmk" ''
     set -eo pipefail
 
@@ -59,6 +60,7 @@ let
     fi
 
     KEYMAP="$(${pkgs.busybox}/bin/realpath $1)"
+
     export PATH=${lib.makeBinPath (with pkgs; zmk'.nativeBuildInputs ++ [ ccache ])}:$PATH
     export CMAKE_PREFIX_PATH=${zephyr}
 
@@ -68,10 +70,13 @@ let
 
     if [ -n "$DEBUG" ]; then ccache -z; fi
 
-    cmake -G Ninja -S ${zmk'.src}/app ${lib.escapeShellArgs zmk'.cmakeFlags} "-DUSER_CACHE_DIR=/tmp/.cache" "-DKEYMAP_FILE=$KEYMAP"
+    cmake -G Ninja -S ${zmk'.src}/app ${lib.escapeShellArgs zmk'.cmakeFlags} "-DUSER_CACHE_DIR=/tmp/.cache" "-DKEYMAP_FILE=$KEYMAP" -DBOARD=glove80_lh
+
     ninja
 
     if [ -n "$DEBUG" ]; then ccache -s; fi
+
+    cat zephyr/zmk.uf2 ${zmk_glove80_rh}/zmk.uf2 > zephyr/combined.uf2
   '';
 
   ccacheCache = pkgs.runCommandNoCC "ccache-cache" {

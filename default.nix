@@ -2,6 +2,12 @@
 let
   inherit (pkgs) newScope;
   inherit (pkgs.lib) makeScope;
+
+  combine_uf2 = a: b: pkgs.runCommandNoCC "combined_${a.name}_${b.name}" {}
+  ''
+    mkdir -p $out
+    cat ${a}/zmk.uf2 ${b}/zmk.uf2 > $out/glove80.uf2
+  '';
 in
 
 makeScope newScope (self: with self; {
@@ -36,6 +42,8 @@ makeScope newScope (self: with self; {
     board = "glove80_rh";
   };
 
+  glove80_combined = combine_uf2 glove80_left glove80_right;
+
   glove80_v0_left = zmk.override {
     board = "glove80_v0_lh";
   };
@@ -43,5 +51,4 @@ makeScope newScope (self: with self; {
   glove80_v0_right = zmk.override {
     board = "glove80_v0_rh";
   };
-
 })
