@@ -339,7 +339,7 @@ static int zmk_led_generate_status() {
         }
     }
 
-    int usb_state = zmk_usb_get_conn_state();
+    enum zmk_usb_conn_state usb_state = zmk_usb_get_conn_state();
     if (usb_state == ZMK_USB_CONN_HID &&
         active_endpoint == ZMK_ENDPOINT_USB) { // connected AND active
         status_pixels[DT_PROP(UNDERGLOW_INDICATORS, usb_state)] = white;
