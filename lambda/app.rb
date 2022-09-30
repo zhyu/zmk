@@ -24,17 +24,15 @@ module LambdaFunction
     def self.process(event:, context:)
       return { type: 'keep_alive' } if event.has_key?('keep_alive')
 
-      base64 = event.fetch('base64', false)
-
       keymap_data = event.fetch('keymap') do
         raise ArgumentError.new('Missing required argument: keymap')
       end
 
-      keymap_data = Base64.decode64(keymap_data) if base64
+      keymap_data = Base64.decode64(keymap_data)
       result, log = Compiler.new.compile(keymap_data)
-      result = Base64.strict_encode64(result) if base64
+      result = Base64.strict_encode64(result)
 
-      { type: 'result', result: result, log: log, base64: base64 }
+      { type: 'result', result: result, log: log }
     rescue Compiler::CompileError => e
       {
         type: 'error',
