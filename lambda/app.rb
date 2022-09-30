@@ -25,28 +25,32 @@ module LambdaFunction
       return { type: 'keep_alive' } if event.has_key?('keep_alive')
 
       keymap_data = event.fetch('keymap') do
-        raise ArgumentError.new('Missing required argument: keymap')
+        return error(status: 400, message: 'Missing required argument: keymap')
       end
 
-      keymap_data = Base64.decode64(keymap_data)
-      result, log = Compiler.new.compile(keymap_data)
+      keymap_data =
+        begin
+          Base64.strict_decode64(keymap_data)
+        rescue ArgumentError
+          return error(status: 400, message: 'Invalid Base64 in keymap input')
+        end
+
+      result, log =
+        begin
+          Compiler.new.compile(keymap_data)
+        rescue Compiler::CompileError => e
+          return error(status: e.status, message: e.message, detail: e.detail)
+        end
+
       result = Base64.strict_encode64(result)
 
       { type: 'result', result: result, log: log }
-    rescue Compiler::CompileError => e
-      {
-        type: 'error',
-        status: e.status,
-        message: e.message,
-        detail: e.detail,
-      }
     rescue StandardError => e
-      {
-        type: 'error',
-        status: 500,
-        message: "Unexpected error: #{e.class}",
-        detail: e.message,
-      }
+      error(status: 500, message: "Unexpected error: #{e.class}", detail: e.message)
+    end
+
+    def self.error(status:, message:, detail: '')
+      { type: 'error', status: status, message: message, detail: detail }
     end
   end
 end
