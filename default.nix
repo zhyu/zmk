@@ -2,12 +2,6 @@
 let
   inherit (pkgs) newScope;
   inherit (pkgs.lib) makeScope;
-
-  combine_uf2 = a: b: pkgs.runCommandNoCC "combined_${a.name}_${b.name}" {}
-  ''
-    mkdir -p $out
-    cat ${a}/zmk.uf2 ${b}/zmk.uf2 > $out/glove80.uf2
-  '';
 in
 
 makeScope newScope (self: with self; {
@@ -25,6 +19,12 @@ makeScope newScope (self: with self; {
       sha256 = "1asgw3v3k77lvh4i1c3s0gncy2dn658py6256bzpjp1k35gs8mbg";
     };
   });
+
+  combine_uf2 = a: b: pkgs.runCommandNoCC "combined_${a.name}_${b.name}" {}
+  ''
+    mkdir -p $out
+    cat ${a}/zmk.uf2 ${b}/zmk.uf2 > $out/glove80.uf2
+  '';
 
   zephyr = callPackage ./nix/zephyr.nix { };
 
