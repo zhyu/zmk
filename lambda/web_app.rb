@@ -19,7 +19,7 @@ class WebApp < Sinatra::Base
     result, log = Compiler.new.compile(keymap_data)
 
     status 200
-    content_type 'application/octet_stream'
+    content_type 'application/octet-stream'
     headers 'X-Debug-Output': log.to_json
     body result
   end
