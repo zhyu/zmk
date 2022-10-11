@@ -39,17 +39,17 @@ module LambdaFunction
         begin
           Compiler.new.compile(keymap_data)
         rescue Compiler::CompileError => e
-          return error(status: e.status, message: e.message, detail: e.detail)
+          return error(status: e.status, message: e.message, detail: e.log)
         end
 
       result = Base64.strict_encode64(result)
 
       { type: 'result', result: result, log: log }
     rescue StandardError => e
-      error(status: 500, message: "Unexpected error: #{e.class}", detail: e.message)
+      error(status: 500, message: "Unexpected error: #{e.class}", detail: [e.message])
     end
 
-    def self.error(status:, message:, detail: '')
+    def self.error(status:, message:, detail: nil)
       { type: 'error', status: status, message: message, detail: detail }
     end
   end

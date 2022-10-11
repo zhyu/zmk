@@ -27,17 +27,17 @@ class WebApp < Sinatra::Base
   error Compiler::CompileError do
     e = env['sinatra.error']
     status e.status
-    json_body(error: e.message, detail: e.detail)
+    json_body(error: e.message, detail: e.log)
   end
 
   error do
     e = env['sinatra.error']
     status 500
-    json_body(error: "Unexpected error: #{e.class}", detail: e.message)
+    json_body(error: "Unexpected error: #{e.class}", detail: [e.message])
   end
 
   not_found do
     status 404
-    json_body(error: 'No such path')
+    json_body(error: 'No such path', detail: nil)
   end
 end

@@ -6,12 +6,12 @@ require 'base64'
 
 class Compiler
   class CompileError < RuntimeError
-    attr_reader :status, :detail
+    attr_reader :status, :log
 
-    def initialize(message, status: 400, detail:)
+    def initialize(message, status: 400, log:)
       super(message)
       @status = status
-      @detail = detail
+      @log = log
     end
   end
 
@@ -31,11 +31,11 @@ class Compiler
 
       unless $?.success?
         status = $?.exitstatus
-        raise CompileError.new("Compile failed with exit status #{status}", detail: compile_output)
+        raise CompileError.new("Compile failed with exit status #{status}", log: compile_output)
       end
 
       unless File.exist?('zephyr/combined.uf2')
-        raise CompileError.new('Compile failed to produce result binary', status: 500, detail: compile_output)
+        raise CompileError.new('Compile failed to produce result binary', status: 500, log: compile_output)
       end
 
       result = File.read('zephyr/combined.uf2')
