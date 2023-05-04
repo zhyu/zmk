@@ -76,7 +76,7 @@ endif()
 
 if (CONFIG_ZMK_BLE) 
   if (CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
-	  target_sources(app PRIVATE src/battery_split.c)
+    target_sources(app PRIVATE src/battery_split.c)
   else()
     target_sources(app PRIVATE src/battery.c)
   endif()
